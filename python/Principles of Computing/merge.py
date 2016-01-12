@@ -3,7 +3,8 @@ Merge function for 2048 game.
 """
 
 
-def multiply(line):
+dls
+git ef multiply(line):
 	"""
 	Takes a treated line and returns the 2048 algorithm output multiplying
 	found numbers by two and moving empty cells to the end.
