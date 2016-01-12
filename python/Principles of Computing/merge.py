@@ -2,9 +2,7 @@
 Merge function for 2048 game.
 """
 
-
-dls
-git ef multiply(line):
+def multiply(line):
 	"""
 	Takes a treated line and returns the 2048 algorithm output multiplying
 	found numbers by two and moving empty cells to the end.
@@ -31,11 +29,14 @@ git ef multiply(line):
 		if line[index] == line[index+1]:
 			tmp_list.append(line[index] * 2)
 			index += 2
+			if index == len(line):
+				tmp_list.append(0)
+				return tmp_list
 		else:
 			tmp_list.append(line[index])
 			index += 1
 	
-	# if it's an odd-length list append the final number
+	# if it's an even-length list append the final number
 	if 2 % len(line) == 0 and line[-1] > 0:
 		tmp_list.append(line[-1])
 		
@@ -60,4 +61,4 @@ def merge(line):
 
 	return multiply(result_list)
 
-print str(merge([2,2,16,2,2]))
+print str(merge([2,2]))
