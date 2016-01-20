@@ -1,64 +1,29 @@
 """
 Merge function for 2048 game.
 """
-
-def multiply(line):
-	"""
-	Takes a treated line and returns the 2048 algorithm output multiplying
-	found numbers by two and moving empty cells to the end.
-	"""
-	tmp_list = []
-	index = 0
+def right_zeros(line):
+	""" Move all non-zero values to the front and append zeroes to the end"""
+	list_zero = [_ for _ in line if _ == 0 ]
+	list_copy = [_ for _ in line if _ > 0 ]
+	list_copy.extend(list_zero)
+	return list_copy
 	
-	# if it's just an empty of length of one list return it
-	if len(line) <= 1:
-		return line
-	
-	# main algorithm
-	while index < len(line):
-		# deal with end of list issues
-		if index == len(line) - 1:
-			tmp_list.append(line[index])
-			break
-		
-		# if an adjacent cell is a duplicate, multiply
-		# by 2 , add it to results, and skip the next 
-		# iteration of the main line. Otherwise just
-		# stick the value on the end and move to the next
-		# item.
-		if line[index] == line[index+1]:
-			tmp_list.append(line[index] * 2)
-			index += 2
-			if index == len(line):
-				tmp_list.append(0)
-				return tmp_list
-		else:
-			tmp_list.append(line[index])
-			index += 1
-	
-	# if it's an even-length list append the final number
-	if 2 % len(line) == 0 and line[-1] > 0:
-		tmp_list.append(line[-1])
-		
-	# stick the zeroes on the end    
-	line_diff = len(line) - len(tmp_list)
-	
-	# fill in trailing zeroes
-	tmp_list.extend([0] * line_diff)
-	return tmp_list
-			
-
 def merge(line):
 	"""
 	Function that merges a single row or column in 2048.
 	"""
-	result_list = [0] * len(line)
-	result_index = 0
-	for item in line:
-		if item > 0:
-			result_list[result_index] = item
-			result_index += 1
+	tmp_list = []
+	working_list = right_zeros(line[:])
+	for index, item in enumerate(working_list):
+		if index < len(working_list)-1: #in the list and not at the end of the list
+			if item == working_list[index + 1]:
+				tmp_list.append(item * 2)
+				working_list[index+1]=0 # append matched * 2 and change next item to 0
+			else:
+				tmp_list.append(item) # append nonzero non matched
+		else: 
+			tmp_list.append(item) # append last item
+			
+	return right_zeros(tmp_list)
 
-	return multiply(result_list)
-
-print str(merge([2,2]))
+print merge([8,8])
